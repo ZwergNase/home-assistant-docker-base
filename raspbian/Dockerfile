@@ -23,6 +23,10 @@ ARG \
     S6_OVERLAY_VERSION \
     QEMU_CPU
 
+# sync GIDs
+WORKDIR /etc/
+RUN 
+
 # Base system
 WORKDIR /usr/src
 
@@ -58,7 +62,10 @@ RUN \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /usr/src/*
+    && rm -rf /usr/src/* \
+    && mv /etc/group /etc/group_ORIGINAL \
+    && curl --output-dir /etc https://raw.githubusercontent.com/home-assistant/buildroot/master/system/skeleton/etc/group \
+    && chmod a+r /etc/group
 
 # S6-Overlay
 WORKDIR /
